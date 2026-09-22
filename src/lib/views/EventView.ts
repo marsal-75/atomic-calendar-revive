@@ -11,6 +11,7 @@ import {
 	getDescription,
 	getEventDateText,
 	getLocationHTML,
+	getRelativeTimeText,
 	getTitleHTML,
 	setNoEventDays,
 } from '../common.html';
@@ -189,7 +190,7 @@ export class EventView implements ICalendarView {
 					timeUntilRemaining = html`<div class="relative-time time-remaining">
 						${
 							this.config.showRelativeTime && event.startDateTime.isAfter(now, 'minutes')
-								? `(${event.startDateTime.isSame(now, 'day') ? event.startDateTime.fromNow() : event.startDateTime.startOf('day').from(now.startOf('day'))})`
+								? `(${getRelativeTimeText(event.startDateTime, now)})`
 								: this.config.showTimeRemaining &&
 									  event.startDateTime.isBefore(now, 'minutes') &&
 									  event.endDateTime.isAfter(now, 'minutes')

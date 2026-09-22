@@ -101,6 +101,21 @@ export function getEventDateText(config: atomicCardConfig, eventDate: dayjs.Dayj
 }
 
 /**
+ * Formats the relative time for an upcoming event. Events less than a day
+ * away retain their hour-level precision even when they cross midnight;
+ * more distant events use the existing day-level wording.
+ */
+export function getRelativeTimeText(eventStart: dayjs.Dayjs, now: dayjs.Dayjs): string {
+	if (!eventStart.isAfter(now, 'minutes')) {
+		return '';
+	}
+
+	return eventStart.diff(now, 'hours', true) < 24
+		? eventStart.from(now)
+		: eventStart.startOf('day').from(now.startOf('day'));
+}
+
+/**
  * ready-to-use function to remove year from moment format('LL')
  * @param {moment}
  * @return {String} [month, day]
